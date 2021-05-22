@@ -2,8 +2,6 @@ package com.dicoding.moviecatalogue.catalogues.detail
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ShareCompat
@@ -23,7 +21,6 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var detailBinding: ActivityDetailBinding
-    private lateinit var actionShare:MenuItem
     private lateinit var detailTitle: String
     private lateinit var detailPoster: String
 
@@ -31,7 +28,6 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         detailBinding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(detailBinding.root)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val viewModel = ViewModelProvider(
             this,
@@ -44,17 +40,13 @@ class DetailActivity : AppCompatActivity() {
             if (movieId != null) {
                 viewModel.setSelectedMovie(movieId)
                 checkCatalogue(viewModel.getMovie(),getString(R.string.movie_title))
-                supportActionBar?.title = detailTitle
             }
-
             val tvShowId = extras.getString(EXTRA_TV_SHOW)
             if (tvShowId != null) {
                 viewModel.setSelectedTvShow(tvShowId)
                 checkCatalogue(viewModel.getTvShow(),getString(R.string.tvshow_title))
                 detailBinding.textviewDetailDirectorSubtitle.text =
                     getString(R.string.detail_creator)
-                supportActionBar?.title = detailTitle
-
             }
         }
 
@@ -71,8 +63,26 @@ class DetailActivity : AppCompatActivity() {
                 .into(builder.findViewById(R.id.img_show))
             builder.show()
         }
+
+
+        toolbar()
     }
 
+    private fun toolbar(){
+        detailBinding.textviewDetailToolbar.text = detailTitle
+        detailBinding.imgDetailBack.setOnClickListener {
+            onBackPressed()
+        }
+        detailBinding.imgDetailShare.setOnClickListener {
+            val mimeType = "text/plain"
+            ShareCompat.IntentBuilder
+                .from(this)
+                .setType(mimeType)
+                .setChooserTitle(getString(R.string.all_share))
+                .setText("Check $detailTitle on The Movie DB")
+                .startChooser()
+        }
+    }
     private fun checkCatalogue(catalogueEntity: CatalogueEntity, catalogue:String){
         if (catalogueEntity.catalogueId.isEmpty()){
             dataCantLoad()
@@ -102,28 +112,6 @@ class DetailActivity : AppCompatActivity() {
             .into(detailBinding.imgDetailPoster)
         detailPoster = catalogueEntity.cataloguePoster
         detailTitle = catalogueEntity.catalogueTitle
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater = menuInflater
-        inflater.inflate(R.menu.menu_detail,menu)
-        if (menu != null){
-            actionShare = menu.findItem(R.id.item_share)
-        }
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == R.id.item_share){
-            val mimeType = "text/plain"
-            ShareCompat.IntentBuilder
-                .from(this)
-                .setType(mimeType)
-                .setChooserTitle(getString(R.string.all_share))
-                .setText("Check $detailTitle on The Movie DB")
-                .startChooser()
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun dataAvailable() {

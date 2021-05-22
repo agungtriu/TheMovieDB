@@ -24,7 +24,8 @@
         </activity>
         <activity
             android:name=".catalogues.detail.DetailActivity"
-            android:parentActivityName=".catalogues.home.HomeActivity">
+            android:parentActivityName=".catalogues.home.HomeActivity"
+            android:theme="@style/Theme.MovieCatalogue.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.dicoding.moviecatalogue.catalogues.home.HomeActivity" />
