@@ -10,11 +10,11 @@
         android:id="@+id/toolbar_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="@dimen/margin_all_zero"
+        android:layout_marginTop="@dimen/margin_all_zero"
+        android:layout_marginEnd="@dimen/margin_all_zero"
         android:background="?attr/colorPrimary"
-        android:elevation="0dp"
+        android:elevation="@dimen/elevation_all_zero"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
 
         <ImageView
             android:id="@+id/img_home_toolbar"
-            android:layout_width="120dp"
+            android:layout_width="@dimen/width_all_poster_small"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_themoviedb_toolbar"
             tools:ignore="contentDescription" />
@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="4dp"
+        android:padding="@dimen/padding_all_tiny"
         app:layout_constraintBottom_toTopOf="@id/viewpager_home"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,7 +44,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager_home"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/height_all_zero"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

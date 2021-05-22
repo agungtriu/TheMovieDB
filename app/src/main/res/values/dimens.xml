@@ -1,3 +1,23 @@
 <resources>
-    <dimen name="text_margin">16dp</dimen>
+    <dimen name="margin_all_zero">0dp</dimen>
+    <dimen name="margin_all_small">8dp</dimen>
+    <dimen name="margin_all_medium">16dp</dimen>
+
+    <dimen name="elevation_all_zero">0dp</dimen>
+    <dimen name="elevation_all_tiny">4dp</dimen>
+
+    <dimen name="width_all_zero">0dp</dimen>
+    <dimen name="height_all_zero">0dp</dimen>
+
+    <dimen name="width_all_poster_small">100dp</dimen>
+    <dimen name="width_all_poster_medium">150dp</dimen>
+
+    <dimen name="height_all_poster_small">100dp</dimen>
+    <dimen name="height_all_poster_medium">150dp</dimen>
+
+    <dimen name="padding_all_tiny">4dp</dimen>
+
+    <dimen name="radius_all_tiny">4dp</dimen>
+
+    <dimen name="text_all_toolbar">20sp</dimen>
 </resources>

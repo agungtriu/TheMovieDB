@@ -11,11 +11,11 @@
         android:id="@+id/toolbar_detail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
+        android:layout_marginStart="@dimen/margin_all_zero"
+        android:layout_marginTop="@dimen/margin_all_zero"
+        android:layout_marginEnd="@dimen/margin_all_zero"
         android:background="?attr/colorPrimary"
-        android:elevation="0dp"
+        android:elevation="@dimen/elevation_all_zero"
         android:minHeight="?attr/actionBarSize"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,8 +24,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp">
+            android:layout_marginStart="@dimen/margin_all_medium"
+            android:layout_marginEnd="@dimen/margin_all_medium">
 
             <ImageView
                 android:id="@+id/img_detail_back"
@@ -39,12 +39,12 @@
 
             <TextView
                 android:id="@+id/textview_detail_toolbar"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/width_all_zero"
                 android:layout_height="match_parent"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="@dimen/margin_all_small"
+                android:layout_marginEnd="@dimen/margin_all_small"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="@dimen/text_all_toolbar"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/img_detail_share"
@@ -67,7 +67,7 @@
     <ScrollView
         android:id="@+id/scroll_detail_catalogue"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/height_all_zero"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -75,8 +75,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="@dimen/text_margin">
+            android:layout_height="@dimen/height_all_zero"
+            android:layout_margin="@dimen/margin_all_medium">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/constraint_detail_poster"
@@ -88,7 +88,7 @@
 
                 <ImageView
                     android:id="@+id/img_detail_poster"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/width_all_zero"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -103,10 +103,10 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraint_detail_text"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/width_all_zero"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="@dimen/margin_all_small"
+                    android:layout_marginEnd="@dimen/margin_all_small"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_weight="4"
@@ -140,7 +140,7 @@
                         android:id="@+id/textview_detail_genres_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/margin_all_small"
                         android:text="@string/contentscrolling_genres"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -163,7 +163,7 @@
                         android:id="@+id/textview_detail_release_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/margin_all_small"
                         android:text="@string/contentscrolling_release"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -186,7 +186,7 @@
                         android:id="@+id/textview_detail_director_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/margin_all_small"
                         android:text="@string/contentscrolling_director"
                         android:textColor="@color/black"
                         android:textStyle="bold"
@@ -200,15 +200,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/dimgray"
-                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintBottom_toTopOf="@id/view_dummy"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/textview_detail_director_subtitle" />
 
                     <View
                         android:id="@+id/view_dummy"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="@dimen/height_all_zero"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -220,7 +220,7 @@
                 android:id="@+id/textview_detail_cast_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_all_small"
                 android:text="@string/contentscrolling_cast"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -241,7 +241,7 @@
                 android:id="@+id/textview_detail_overview_subtitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/margin_all_small"
                 android:text="@string/contentscrolling_overview"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -273,8 +273,8 @@
 
         <ImageView
             android:id="@+id/img_detail_empty"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="@dimen/width_all_poster_small"
+            android:layout_height="@dimen/height_all_poster_small"
             android:src="@drawable/ic_error_midnighblue"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
