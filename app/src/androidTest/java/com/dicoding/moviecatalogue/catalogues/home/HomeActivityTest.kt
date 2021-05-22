@@ -37,8 +37,8 @@ class HomeActivityTest{
     @Test
     fun loadDetailMovie() {
         onView(withId(R.id.recyclerview_movie)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-        onView(withId(R.id.textview_detail_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.textview_detail_title)).check(matches(withText(dummyMovie[0].catalogueTitle)))
+        onView(withId(R.id.textview_detail_toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.textview_detail_toolbar)).check(matches(withText(dummyMovie[0].catalogueTitle)))
         onView(withId(R.id.textview_detail_score)).check(matches(isDisplayed()))
         onView(withId(R.id.textview_detail_score)).check(matches(withText(dummyMovie[0].catalogueScore)))
         onView(withId(R.id.textview_detail_genres)).check(matches(isDisplayed()))
@@ -61,8 +61,8 @@ class HomeActivityTest{
         onView(withId(R.id.viewpager_home)).check(matches(isDisplayed()))
         onView(withId(R.id.viewpager_home)).perform(swipeLeft())
         onView(withId(R.id.recyclerview_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
-        onView(withId(R.id.textview_detail_title)).check(matches(isDisplayed()))
-        onView(withId(R.id.textview_detail_title)).check(matches(withText(dummyTvShow[0].catalogueTitle)))
+        onView(withId(R.id.textview_detail_toolbar)).check(matches(isDisplayed()))
+        onView(withId(R.id.textview_detail_toolbar)).check(matches(withText(dummyTvShow[0].catalogueTitle)))
         onView(withId(R.id.textview_detail_score)).check(matches(isDisplayed()))
         onView(withId(R.id.textview_detail_score)).check(matches(withText(dummyTvShow[0].catalogueScore)))
         onView(withId(R.id.textview_detail_genres)).check(matches(isDisplayed()))
