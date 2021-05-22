@@ -94,7 +94,7 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun populateCatalogue(catalogueEntity: CatalogueEntity) {
-        detailBinding.textviewDetailTitle.text = catalogueEntity.catalogueTitle
+        detailTitle = catalogueEntity.catalogueTitle
         detailBinding.textviewDetailScore.text = catalogueEntity.catalogueScore
         detailBinding.textviewDetailGenres.text = catalogueEntity.catalogueGenres
         detailBinding.textviewDetailRelease.text = catalogueEntity.catalogueRelease
@@ -111,7 +111,6 @@ class DetailActivity : AppCompatActivity() {
             )
             .into(detailBinding.imgDetailPoster)
         detailPoster = catalogueEntity.cataloguePoster
-        detailTitle = catalogueEntity.catalogueTitle
     }
 
     private fun dataAvailable() {
