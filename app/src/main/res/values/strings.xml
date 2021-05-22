@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">The Movie DB</string>
+    <string name="movie_title">Movie</string>
+    <string name="tvshow_title">TV Show</string>
+    <string name="contentscrolling_overview">Overview</string>
+    <string name="contentscrolling_cast">Cast</string>
+    <string name="contentscrolling_director">Director</string>
+    <string name="contentscrolling_release">Release Information</string>
+    <string name="contentscrolling_genres">Genres</string>
+    <string name="contentscrolling_score">User Score</string>
+    <string name="detail_creator">Creator</string>
+    <string name="all_share">Share</string>
+    <string name="tvshow_empty">Data TV Show Not Available</string>
+    <string name="movie_empty">Data Movie Not Available</string>
+    <string name="detail_cantload">Data Can\'t Load</string>
+</resources>
