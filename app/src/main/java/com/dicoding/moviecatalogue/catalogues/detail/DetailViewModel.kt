@@ -18,6 +18,7 @@ class DetailViewModel : ViewModel() {
         for (movieEntity in moviesEntities) {
             if (movieEntity.catalogueId == movieId) {
                 movie = movieEntity
+                break
             }
         }
         return movie
@@ -33,6 +34,7 @@ class DetailViewModel : ViewModel() {
         for (tvShowEntity in tvShowsEntities) {
             if (tvShowEntity.catalogueId == tvShowId) {
                 tvShow = tvShowEntity
+                break
             }
         }
         return tvShow
