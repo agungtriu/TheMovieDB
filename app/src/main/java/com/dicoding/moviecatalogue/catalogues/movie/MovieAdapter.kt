@@ -12,9 +12,9 @@ import com.dicoding.moviecatalogue.data.CatalogueEntity
 import com.dicoding.moviecatalogue.databinding.ItemsCatalogueBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
-    private var listMovie = ArrayList<CatalogueEntity>()
+    private val listMovie = ArrayList<CatalogueEntity>()
     fun setMovie(catalogues: List<CatalogueEntity>?) {
-        if (catalogues == null) return
+        if (catalogues.isNullOrEmpty()) return
         this.listMovie.clear()
         this.listMovie.addAll(catalogues)
     }
@@ -33,7 +33,7 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
                     .into(imgItemscataloguePoster)
 
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, DetailActivity::class.java)
+                    val intent = Intent(it.context, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_MOVIE, movies.catalogueId)
                     itemView.context.startActivity(intent)
                 }

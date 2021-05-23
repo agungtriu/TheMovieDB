@@ -12,9 +12,9 @@ import com.dicoding.moviecatalogue.data.CatalogueEntity
 import com.dicoding.moviecatalogue.databinding.ItemsCatalogueBinding
 
 class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder>() {
-    private var listTvShow = ArrayList<CatalogueEntity>()
+    private val listTvShow = ArrayList<CatalogueEntity>()
     fun setTvShow(tvShows: List<CatalogueEntity>?) {
-        if (tvShows == null) return
+        if (tvShows.isNullOrEmpty()) return
         this.listTvShow.clear()
         this.listTvShow.addAll(tvShows)
     }
@@ -33,7 +33,7 @@ class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder>() {
                     .into(imgItemscataloguePoster)
 
                 itemView.setOnClickListener {
-                    val intent = Intent(itemView.context, DetailActivity::class.java)
+                    val intent = Intent(it.context, DetailActivity::class.java)
                     intent.putExtra(DetailActivity.EXTRA_TV_SHOW, tvShows.catalogueId)
                     itemView.context.startActivity(intent)
                 }
