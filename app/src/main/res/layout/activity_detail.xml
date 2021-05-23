@@ -46,6 +46,7 @@
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_all_toolbar"
                 android:textStyle="bold"
+                android:text="@string/text_detail_toolbar_dummytitle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/img_detail_share"
                 app:layout_constraintStart_toEndOf="@id/img_detail_back"

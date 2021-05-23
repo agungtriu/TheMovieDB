@@ -13,4 +13,5 @@
     <string name="tvshow_empty">Data TV Show Not Available</string>
     <string name="movie_empty">Data Movie Not Available</string>
     <string name="detail_cantload">Data Can\'t Load</string>
+    <string name="text_detail_toolbar_dummytitle">Title</string>
 </resources>
