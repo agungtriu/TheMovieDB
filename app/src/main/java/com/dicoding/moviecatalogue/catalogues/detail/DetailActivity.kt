@@ -21,8 +21,8 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private lateinit var detailBinding: ActivityDetailBinding
-    private lateinit var detailTitle: String
-    private lateinit var detailPoster: String
+    private var detailTitle: String? = null
+    private var detailPoster: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
