@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dicoding.moviecatalogue.R
 import com.dicoding.moviecatalogue.catalogues.detail.DetailActivity
-import com.dicoding.moviecatalogue.data.CatalogueEntity
+import com.dicoding.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.dicoding.moviecatalogue.databinding.ItemsCatalogueBinding
 
 class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder>() {
@@ -23,18 +23,18 @@ class TvShowAdapter: RecyclerView.Adapter<TvShowAdapter.TvShowViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(tvShows: CatalogueEntity) {
             with(binding) {
-                textviewItemscatalogueTitle.text = tvShows.catalogueTitle
-                textviewItemscatalogueRelease.text = tvShows.catalogueRelease
-                textviewItemscatalogueOverview.text = tvShows.catalogueOverview
+                textviewItemscatalogueTitle.text = tvShows.title
+                textviewItemscatalogueRelease.text = tvShows.release
+                textviewItemscatalogueOverview.text = tvShows.overview
                 Glide.with(itemView.context)
-                    .load(tvShows.cataloguePoster)
+                    .load(tvShows.poster)
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading))
                     .error(R.drawable.ic_error)
                     .into(imgItemscataloguePoster)
 
                 itemView.setOnClickListener {
                     val intent = Intent(it.context, DetailActivity::class.java)
-                    intent.putExtra(DetailActivity.EXTRA_TV_SHOW, tvShows.catalogueId)
+                    intent.putExtra(DetailActivity.EXTRA_TV_SHOW, tvShows)
                     itemView.context.startActivity(intent)
                 }
             }

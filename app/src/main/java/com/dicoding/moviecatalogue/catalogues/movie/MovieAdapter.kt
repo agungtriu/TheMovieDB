@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dicoding.moviecatalogue.R
 import com.dicoding.moviecatalogue.catalogues.detail.DetailActivity
-import com.dicoding.moviecatalogue.data.CatalogueEntity
+import com.dicoding.moviecatalogue.data.source.local.entity.CatalogueEntity
 import com.dicoding.moviecatalogue.databinding.ItemsCatalogueBinding
 
 class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
@@ -23,18 +23,18 @@ class MovieAdapter: RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
         RecyclerView.ViewHolder(binding.root) {
         fun bind(movies: CatalogueEntity) {
             with(binding) {
-                textviewItemscatalogueTitle.text = movies.catalogueTitle
-                textviewItemscatalogueRelease.text = movies.catalogueRelease
-                textviewItemscatalogueOverview.text = movies.catalogueOverview
+                textviewItemscatalogueTitle.text = movies.title
+                textviewItemscatalogueRelease.text = movies.release
+                textviewItemscatalogueOverview.text = movies.overview
                 Glide.with(itemView.context)
-                    .load(movies.cataloguePoster)
+                    .load(movies.poster)
                     .apply(RequestOptions.placeholderOf(R.drawable.ic_loading))
                     .error(R.drawable.ic_error)
                     .into(imgItemscataloguePoster)
 
                 itemView.setOnClickListener {
                     val intent = Intent(it.context, DetailActivity::class.java)
-                    intent.putExtra(DetailActivity.EXTRA_MOVIE, movies.catalogueId)
+                    intent.putExtra(DetailActivity.EXTRA_MOVIE,movies)
                     itemView.context.startActivity(intent)
                 }
             }

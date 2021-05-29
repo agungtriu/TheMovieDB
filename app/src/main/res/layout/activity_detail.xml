@@ -43,10 +43,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/margin_all_small"
                 android:layout_marginEnd="@dimen/margin_all_small"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/text_detail_toolbar_dummytitle"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_all_toolbar"
                 android:textStyle="bold"
-                android:text="@string/text_detail_toolbar_dummytitle"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/img_detail_share"
                 app:layout_constraintStart_toEndOf="@id/img_detail_back"
@@ -116,16 +118,28 @@
                     app:layout_constraintVertical_bias="0">
 
                     <TextView
+                        android:id="@+id/textview_detail_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@id/textview_detail_score_subtitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
                         android:id="@+id/textview_detail_score_subtitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_all_small"
                         android:text="@string/contentscrolling_score"
                         android:textColor="@color/black"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toTopOf="@id/textview_detail_score"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/textview_detail_title" />
 
                     <TextView
                         android:id="@+id/textview_detail_score"
@@ -261,6 +275,26 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_detail_progress"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar_detail">
+
+        <ProgressBar
+            android:id="@+id/progressbar_detail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraint_detail_empty"
