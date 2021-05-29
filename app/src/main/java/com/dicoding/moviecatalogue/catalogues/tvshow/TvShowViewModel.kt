@@ -1,9 +1,10 @@
 package com.dicoding.moviecatalogue.catalogues.tvshow
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.moviecatalogue.data.CatalogueEntity
-import com.dicoding.moviecatalogue.utils.DataDummy
+import com.dicoding.moviecatalogue.data.source.CatalogueRepository
+import com.dicoding.moviecatalogue.data.source.local.entity.CatalogueEntity
 
-class TvShowViewModel: ViewModel() {
-    fun getTvShows() : List<CatalogueEntity> = DataDummy.generateDummyTvShows()
+class TvShowViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
+    fun getTvShows(page: Int): LiveData<List<CatalogueEntity>> = catalogueRepository.getTvShows(page)
 }
