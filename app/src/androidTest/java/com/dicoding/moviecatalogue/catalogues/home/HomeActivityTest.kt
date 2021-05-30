@@ -68,6 +68,7 @@ class HomeActivityTest{
         onView(withId(R.id.recyclerview_movie)).check(matches(isDisplayed()))
         onView(withId(R.id.recyclerview_movie)).perform(swipeLeft())
         onView(withId(R.id.recyclerview_tvshow)).check(matches(isDisplayed()))
+        Thread.sleep(2000)
         onView(withId(R.id.recyclerview_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.textview_detail_title)).check(matches(isDisplayed()))
         onView(withId(R.id.textview_detail_title)).check(matches(not(withText(""))))
