@@ -64,7 +64,6 @@ class RemoteDataSource {
     }
 
     fun getCredit(id: Int, catalogue: String, callback: LoadCreditCallback) {
-        EspressoIdlingResource.increment()
         val client = ApiConfig.getApiService().getCredit(id, catalogue, apiKey)
         client.enqueue(object : Callback<CreditResponse> {
             override fun onResponse(
@@ -98,8 +97,8 @@ class RemoteDataSource {
                     callback.onAllDetailMovieReceived(response.body() as DetailMovieResponse)
                 } else {
                     Log.e("RemoteDataSource", "onFailure: ${response.message()}")
+                    EspressoIdlingResource.decrement()
                 }
-                EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<DetailMovieResponse>, t: Throwable) {
@@ -122,8 +121,8 @@ class RemoteDataSource {
                     callback.onAllDetailTvShowReceived(response.body() as DetailTvShowResponse)
                 } else {
                     Log.e("RemoteDataSource", "onFailure: ${response.message()}")
+                    EspressoIdlingResource.decrement()
                 }
-                EspressoIdlingResource.decrement()
             }
 
             override fun onFailure(call: Call<DetailTvShowResponse>, t: Throwable) {
