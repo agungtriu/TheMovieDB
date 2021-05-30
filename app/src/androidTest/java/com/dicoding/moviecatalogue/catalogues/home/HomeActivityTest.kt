@@ -36,8 +36,8 @@ class HomeActivityTest{
 
     @Test
     fun loadTvShows(){
-        onView(withId(R.id.viewpager_home)).check(matches(isDisplayed()))
-        onView(withId(R.id.viewpager_home)).perform(swipeLeft())
+        onView(withId(R.id.recyclerview_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.recyclerview_movie)).perform(swipeLeft())
         onView(withId(R.id.recyclerview_tvshow)).check(matches(isDisplayed()))
         onView(withId(R.id.recyclerview_tvshow)).perform(swipeUp())
     }
@@ -65,8 +65,8 @@ class HomeActivityTest{
 
     @Test
     fun loadDetailTvShow() {
-        onView(withId(R.id.viewpager_home)).check(matches(isDisplayed()))
-        onView(withId(R.id.viewpager_home)).perform(swipeLeft())
+        onView(withId(R.id.recyclerview_movie)).check(matches(isDisplayed()))
+        onView(withId(R.id.recyclerview_movie)).perform(swipeLeft())
         onView(withId(R.id.recyclerview_tvshow)).check(matches(isDisplayed()))
         onView(withId(R.id.recyclerview_tvshow)).perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, click()))
         onView(withId(R.id.textview_detail_title)).check(matches(isDisplayed()))
