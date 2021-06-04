@@ -59,8 +59,10 @@ class DetailActivity : AppCompatActivity() {
                     .observe(this, { detailTvShowResponse ->
                         getCreditTvShow(detailTvShowResponse)
                     })
-                detailBinding.textviewDetailDirectorSubtitle.text = getString(R.string.detail_creator)
-                detailBinding.textviewDetailToolbar.text = getString(R.string.tvshow_title)
+                detailBinding.apply {
+                    textviewDetailDirectorSubtitle.text = getString(R.string.detail_creator)
+                    textviewDetailToolbar.text = getString(R.string.tvshow_title)
+                }
             }
         }
     }
@@ -109,31 +111,35 @@ class DetailActivity : AppCompatActivity() {
 
     private fun populateCatalogue(catalogueEntity: CatalogueDetailEntity) {
         detailTitle = catalogueEntity.catalogueTitle
-        detailBinding.textviewDetailTitle.text = detailTitle
-        detailBinding.textviewDetailScore.text = catalogueEntity.catalogueScore
-        detailBinding.textviewDetailGenres.text = catalogueEntity.catalogueGenres
-        detailBinding.textviewDetailRelease.text = catalogueEntity.catalogueRelease
-        checkDirector(catalogueEntity.catalogueDirector)
-        detailBinding.textviewDetailCast.text = catalogueEntity.catalogueCast
-        checkOverview(catalogueEntity.catalogueOverview)
-        detailPoster = Config.imagePath.plus(catalogueEntity.cataloguePoster)
-        Glide.with(this)
-            .load(detailPoster)
-            .transform(RoundedCorners(20))
-            .apply(
-                RequestOptions.placeholderOf(R.drawable.ic_loading)
-                    .error(R.drawable.ic_error)
-            )
-            .into(detailBinding.imgDetailPoster)
+        detailBinding.apply {
+            textviewDetailTitle.text = detailTitle
+            textviewDetailScore.text = catalogueEntity.catalogueScore
+            textviewDetailGenres.text = catalogueEntity.catalogueGenres
+            textviewDetailRelease.text = catalogueEntity.catalogueRelease
+            checkDirector(catalogueEntity.catalogueDirector)
+            textviewDetailCast.text = catalogueEntity.catalogueCast
+            checkOverview(catalogueEntity.catalogueOverview)
+            detailPoster = Config.imagePath.plus(catalogueEntity.cataloguePoster)
+            Glide.with(this@DetailActivity)
+                .load(detailPoster)
+                .transform(RoundedCorners(20))
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error)
+                )
+                .into(imgDetailPoster)
+        }
         hideLoading()
     }
 
     private fun checkDirector(directors: String){
-        if (directors.isBlank()){
-            detailBinding.textviewDetailDirectorSubtitle.visibility = View.INVISIBLE
-            detailBinding.textviewDetailDirector.visibility = View.INVISIBLE
-        }else{
-            detailBinding.textviewDetailDirector.text = directors
+        detailBinding.apply {
+            if (directors.isBlank()){
+                textviewDetailDirectorSubtitle.visibility = View.INVISIBLE
+                textviewDetailDirector.visibility = View.INVISIBLE
+            }else{
+                textviewDetailDirector.text = directors
+            }
         }
     }
     private fun checkOverview(overviewRemote:String){
