@@ -1,42 +1,20 @@
 package com.dicoding.moviecatalogue.catalogues.detail
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.moviecatalogue.data.CatalogueEntity
-import com.dicoding.moviecatalogue.utils.DataDummy
+import com.dicoding.moviecatalogue.data.source.CatalogueRepository
+import com.dicoding.moviecatalogue.data.source.local.entity.CreditEntity
+import com.dicoding.moviecatalogue.data.source.local.entity.DetailMovieEntity
+import com.dicoding.moviecatalogue.data.source.local.entity.DetailTvShowEntity
 
-class DetailViewModel : ViewModel() {
-    private lateinit var movieId: String
-    private lateinit var tvShowId: String
+class DetailViewModel(private val catalogueRepository: CatalogueRepository) : ViewModel() {
 
-    fun setSelectedMovie(movieId: String) {
-        this.movieId = movieId
-    }
+    fun getDetailTvShow(id: Int): LiveData<DetailTvShowEntity> =
+        catalogueRepository.getDetailTvShow(id)
 
-    fun getMovie(): CatalogueEntity {
-        lateinit var movie: CatalogueEntity
-        val moviesEntities = DataDummy.generateDummyMovies()
-        for (movieEntity in moviesEntities) {
-            if (movieEntity.catalogueId == movieId) {
-                movie = movieEntity
-                break
-            }
-        }
-        return movie
-    }
+    fun getDetailMovie(id: Int): LiveData<DetailMovieEntity> =
+        catalogueRepository.getDetailMovie(id)
 
-    fun setSelectedTvShow(tvShowId: String) {
-        this.tvShowId = tvShowId
-    }
-
-    fun getTvShow(): CatalogueEntity {
-        lateinit var tvShow: CatalogueEntity
-        val tvShowsEntities = DataDummy.generateDummyTvShows()
-        for (tvShowEntity in tvShowsEntities) {
-            if (tvShowEntity.catalogueId == tvShowId) {
-                tvShow = tvShowEntity
-                break
-            }
-        }
-        return tvShow
-    }
+    fun getCredit(id: Int, catalogue: String): LiveData<CreditEntity> =
+        catalogueRepository.getCredits(id, catalogue)
 }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.moviecatalogue.catalogues.viewmodel.ViewModelFactory
 import com.dicoding.moviecatalogue.databinding.FragmentTvShowBinding
 
 class TvShowFragment : Fragment() {
@@ -22,33 +23,61 @@ class TvShowFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
+
+            val factory = ViewModelFactory.getInstance()
             val viewModel = ViewModelProvider(
                 this,
-                ViewModelProvider.NewInstanceFactory()
+                factory
             )[TvShowViewModel::class.java]
-            val tvShows = viewModel.getTvShows()
-            if (tvShows.isEmpty()){
-                dataEmpty()
-            }else{
-                dataAvailable()
-            }
             val tvShowAdapter = TvShowAdapter()
-            tvShowAdapter.setTvShow(tvShows)
-
+            getTvShow(viewModel, tvShowAdapter)
             with(fragmentTvShowBinding.recyclerviewTvshow) {
                 layoutManager = LinearLayoutManager(context)
                 setHasFixedSize(true)
                 adapter = tvShowAdapter
             }
+            fragmentTvShowBinding.swiperefreshTvshow.setOnRefreshListener {
+                getTvShow(viewModel, tvShowAdapter)
+            }
         }
+    }
+    private fun getTvShow(viewModel: TvShowViewModel, tvShowAdapter: TvShowAdapter){
+        showLoading()
+        viewModel.getTvShows(1).observe(viewLifecycleOwner, {tvShows ->
+            hideLoading()
+            if (tvShows.isEmpty()){
+                dataEmpty()
+            }else{
+                dataAvailable()
+                tvShowAdapter.setTvShow(tvShows)
+                tvShowAdapter.notifyDataSetChanged()
+            }
+        })
     }
 
     private fun dataEmpty() {
         fragmentTvShowBinding.constraintTvshowEmpty.visibility = View.VISIBLE
         fragmentTvShowBinding.recyclerviewTvshow.visibility = View.GONE
     }
-    private fun dataAvailable(){
+
+    private fun dataAvailable() {
         fragmentTvShowBinding.constraintTvshowEmpty.visibility = View.GONE
         fragmentTvShowBinding.recyclerviewTvshow.visibility = View.VISIBLE
+    }
+
+    private fun showLoading() {
+        if (fragmentTvShowBinding.swiperefreshTvshow.isRefreshing){
+            fragmentTvShowBinding.progressbarTvshow.visibility = View.GONE
+        }else{
+            fragmentTvShowBinding.progressbarTvshow.visibility = View.VISIBLE
+        }
+
+    }
+
+    private fun hideLoading() {
+        fragmentTvShowBinding.progressbarTvshow.visibility = View.GONE
+        if (fragmentTvShowBinding.swiperefreshTvshow.isRefreshing){
+            fragmentTvShowBinding.swiperefreshTvshow.isRefreshing=false
+        }
     }
 }

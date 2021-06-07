@@ -1,7 +1,11 @@
-package com.dicoding.moviecatalogue.data
+package com.dicoding.moviecatalogue.data.source.local.entity
 
-data class CatalogueEntity (
-    var catalogueId: String,
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class CatalogueDetailEntity (
+    var catalogueId: Int,
     var catalogueTitle: String,
     var catalogueRelease: String,
     var catalogueOverview: String,
@@ -10,4 +14,4 @@ data class CatalogueEntity (
     var catalogueDirector: String,
     var catalogueCast: String,
     var cataloguePoster: String
-)
+): Parcelable
