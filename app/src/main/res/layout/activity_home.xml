@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".catalogues.home.HomeActivity">
+    tools:context="com.dicoding.moviecatalogue.ui.catalogues.home.HomeActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_home"
@@ -28,26 +28,29 @@
             tools:ignore="contentDescription" />
     </androidx.appcompat.widget.Toolbar>
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tab_home"
+    <fragment
+        android:id="@+id/fragment_home_nav"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:padding="@dimen/padding_all_tiny"
-        app:layout_constraintBottom_toTopOf="@id/viewpager_home"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="0dp"
+        app:defaultNavHost="true"
+        app:layout_constraintBottom_toTopOf="@id/bottomnav_home"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar_home"
-        app:tabIndicatorColor="@color/midnightblue"
-        app:tabTextColor="@color/midnightblue" />
+        app:navGraph="@navigation/navigation_home" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewpager_home"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/height_all_zero"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomnav_home"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="0dp"
+        android:layout_marginEnd="0dp"
+        android:background="?android:attr/windowBackground"
+        app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tab_home" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:menu="@menu/menu_bottomnav" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

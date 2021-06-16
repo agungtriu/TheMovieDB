@@ -23,7 +23,7 @@
         <ImageView
             android:id="@+id/img_itemscatalogue_poster"
             android:layout_width="@dimen/width_all_poster_medium"
-            android:layout_height="@dimen/height_all_poster_medium"
+            android:layout_height="@dimen/height_all_poster_large"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
@@ -56,28 +56,39 @@
                 android:textColor="@color/black"
                 android:textSize="@dimen/text_all_toolbar"
                 android:textStyle="bold"
-                app:layout_constraintBottom_toTopOf="@id/textview_itemscatalogue_release"
+                app:layout_constraintBottom_toTopOf="@id/textview_itemscatalogue_score"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
+                android:id="@+id/textview_itemscatalogue_score"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_all_extrasmall"
+                android:textColor="@color/dimgray"
+                app:layout_constraintBottom_toTopOf="@id/textview_itemscatalogue_release"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview_itemscatalogue_title" />
+
+            <TextView
                 android:id="@+id/textview_itemscatalogue_release"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_all_small"
+                android:layout_marginBottom="@dimen/margin_all_extrasmall"
                 android:textColor="@color/dimgray"
                 app:layout_constraintBottom_toTopOf="@id/textview_itemscatalogue_overview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textview_itemscatalogue_title" />
+                app:layout_constraintTop_toBottomOf="@id/textview_itemscatalogue_score" />
 
             <TextView
                 android:id="@+id/textview_itemscatalogue_overview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="4"
                 android:textColor="@color/dimgray"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

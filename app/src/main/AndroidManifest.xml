@@ -14,7 +14,7 @@
         android:theme="@style/Theme.MovieCatalogue"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".splashcreen.SplashScreenActivity"
+            android:name="com.dicoding.moviecatalogue.ui.splashcreen.SplashScreenActivity"
             android:theme="@style/Theme.MovieCatalogue.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,15 +23,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".catalogues.detail.DetailActivity"
-            android:parentActivityName=".catalogues.home.HomeActivity"
+            android:name="com.dicoding.moviecatalogue.ui.catalogues.detail.DetailActivity"
+            android:parentActivityName="com.dicoding.moviecatalogue.ui.catalogues.home.HomeActivity"
             android:theme="@style/Theme.MovieCatalogue.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.dicoding.moviecatalogue.catalogues.home.HomeActivity" />
+                android:value="com.dicoding.moviecatalogue.ui.catalogues.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".catalogues.home.HomeActivity"
+            android:name="com.dicoding.moviecatalogue.ui.catalogues.home.HomeActivity"
             android:theme="@style/Theme.MovieCatalogue.NoActionBar"/>
     </application>
 

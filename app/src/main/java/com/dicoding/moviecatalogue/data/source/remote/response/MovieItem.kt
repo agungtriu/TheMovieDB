@@ -20,7 +20,10 @@ data class MovieItem(
     val posterPath: String,
 
     @field:SerializedName("release_date")
-    val releaseDate: String,
+    val releaseDate: String?,
+
+    @field:SerializedName("vote_count")
+    val voteCount: Int,
 
     @field:SerializedName("vote_average")
     val voteAverage: Double,

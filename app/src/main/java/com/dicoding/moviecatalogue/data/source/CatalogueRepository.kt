@@ -1,168 +1,263 @@
 package com.dicoding.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
+import com.dicoding.moviecatalogue.data.source.local.LocalDataSource
 import com.dicoding.moviecatalogue.data.source.local.entity.CatalogueEntity
-import com.dicoding.moviecatalogue.data.source.local.entity.CreditEntity
-import com.dicoding.moviecatalogue.data.source.local.entity.DetailMovieEntity
-import com.dicoding.moviecatalogue.data.source.local.entity.DetailTvShowEntity
+import com.dicoding.moviecatalogue.data.source.local.entity.FavoriteEntity
+import com.dicoding.moviecatalogue.data.source.remote.ApiResponse
 import com.dicoding.moviecatalogue.data.source.remote.RemoteDataSource
 import com.dicoding.moviecatalogue.data.source.remote.response.*
+import com.dicoding.moviecatalogue.utils.AppExecutors
 import com.dicoding.moviecatalogue.utils.Config.imagePath
 import com.dicoding.moviecatalogue.utils.Utils
+import com.dicoding.moviecatalogue.vo.Resource
 
-class CatalogueRepository private constructor(private val remoteDataSource: RemoteDataSource) :
-    CatalogueDataSource {
+class CatalogueRepository private constructor(
+    private val remoteDataSource: RemoteDataSource,
+    private val localDataSource: LocalDataSource,
+    private val appExecutors: AppExecutors
+) : CatalogueDataSource {
 
     companion object {
         @Volatile
         private var instance: CatalogueRepository? = null
-        fun getInstance(remoteData: RemoteDataSource): CatalogueRepository =
+        fun getInstance(
+            remoteData: RemoteDataSource,
+            localData: LocalDataSource,
+            appExecutors: AppExecutors
+        ): CatalogueRepository =
             instance ?: synchronized(this) {
-                instance ?: CatalogueRepository(remoteData).apply { instance = this }
+                instance ?: CatalogueRepository(
+                    remoteData,
+                    localData,
+                    appExecutors
+                ).apply { instance = this }
             }
     }
 
-    override fun getMovies(page: Int): LiveData<List<CatalogueEntity>> {
-        val movieResult = MutableLiveData<List<CatalogueEntity>>()
-        remoteDataSource.getMovies(page, object : RemoteDataSource.LoadMoviesCallback {
-            override fun onAllMoviesReceived(listMovieItem: List<MovieItem>) {
+    override fun getMovies(page: Int): LiveData<Resource<PagedList<CatalogueEntity>>> {
+        val categoryCatalogue = "movie"
+        return object :
+            NetworkBoundResource<PagedList<CatalogueEntity>, MovieResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<CatalogueEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(4)
+                    .setPageSize(4)
+                    .build()
+                return LivePagedListBuilder(
+                    localDataSource.getListCatalogue(categoryCatalogue),
+                    config
+                ).build()
+            }
+
+            override fun shouldFetch(data: PagedList<CatalogueEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<MovieResponse>> =
+                remoteDataSource.getMovies(page)
+
+            override fun saveCallResult(data: MovieResponse?) {
                 val movieList = ArrayList<CatalogueEntity>()
-                for (response in listMovieItem) {
-                    val score = Utils.removeDecimal(response.voteAverage.times(10)).plus("%")
-                    val movie = CatalogueEntity(
-                        response.id,
-                        response.title,
-                        Utils.dateConvert(response.releaseDate),
-                        response.overview,
-                        score,
-                        imagePath.plus(response.posterPath)
-                    )
-                    movieList.add(movie)
-                }
-                movieResult.postValue(movieList)
-            }
-
-        })
-        return movieResult
-    }
-
-    override fun getTvShows(page: Int): LiveData<List<CatalogueEntity>> {
-        val tvShowResult = MutableLiveData<List<CatalogueEntity>>()
-        remoteDataSource.getTvShows(page, object : RemoteDataSource.LoadTvShowsCallback {
-            override fun onAllTvShowReceived(listTvShowsItem: List<TvShowItem>) {
-                val tvShowList = ArrayList<CatalogueEntity>()
-                for (response in listTvShowsItem) {
-                    val score = Utils.removeDecimal(response.voteAverage.times(10)).plus("%")
-                    val tvShow = CatalogueEntity(
-                        response.id,
-                        response.name,
-                        Utils.dateConvert(response.firstAirDate),
-                        response.overview,
-                        score,
-                        imagePath.plus(response.posterPath)
-                    )
-                    tvShowList.add(tvShow)
-                }
-                tvShowResult.postValue(tvShowList)
-            }
-        })
-        return tvShowResult
-    }
-
-    override fun getCredits(id: Int, catalogue: String): LiveData<CreditEntity> {
-        val creditResult = MutableLiveData<CreditEntity>()
-        remoteDataSource.getCredit(id, catalogue, object : RemoteDataSource.LoadCreditCallback {
-            override fun onAllCreditReceived(creditResponse: CreditResponse) {
-                var casts = ""
-                for (cast in creditResponse.cast) {
-                    casts = "$casts${cast.name}, "
-                }
-                casts = casts.dropLast(2)
-
-                var directors = ""
-                for (crew in creditResponse.crew) {
-                    if (crew.job == "Director") {
-                        directors = "$directors${crew.name}, "
-                    }
-                }
-                directors = directors.dropLast(2)
-
-                creditResult.postValue(
-                    CreditEntity(
-                        casts,
-                        creditResponse.id,
-                        directors
-                    )
-                )
-            }
-        })
-        return creditResult
-    }
-
-    override fun getDetailMovie(id: Int): LiveData<DetailMovieEntity> {
-        val detailMovieResult = MutableLiveData<DetailMovieEntity>()
-        remoteDataSource.getDetailMovie(
-            id,
-            object : RemoteDataSource.LoadDetailMovieCallback {
-                override fun onAllDetailMovieReceived(detailMovieResponse: DetailMovieResponse) {
-                    var genres = ""
-                    for (genre in detailMovieResponse.genres) {
-                        genres = "$genres${genre.name}, "
-                    }
-                    genres = genres.dropLast(2)
-                    val score =
-                        Utils.removeDecimal(detailMovieResponse.voteAverage.times(10)).plus("%")
-                    detailMovieResult.postValue(
-                        DetailMovieEntity(
-                            detailMovieResponse.title,
-                            genres,
-                            detailMovieResponse.id,
-                            detailMovieResponse.overview,
-                            detailMovieResponse.posterPath,
-                            Utils.dateConvert(detailMovieResponse.releaseDate),
-                            score
+                if (data?.results != null) {
+                    for (response in data.results) {
+                        val score = if (response.voteCount == 0) {
+                            "NR"
+                        } else {
+                            Utils.removeDecimal(response.voteAverage.times(10)).plus(" %")
+                        }
+                        val date = if (response.releaseDate.isNullOrEmpty()) {
+                            "TBA"
+                        } else {
+                            Utils.dateConvert(response.releaseDate)
+                        }
+                        val movie = CatalogueEntity(
+                            response.id,
+                            response.title,
+                            date,
+                            response.overview,
+                            score,
+                            imagePath.plus(response.posterPath),
+                            categoryCatalogue,
+                            "",
+                            "",
+                            ""
                         )
-                    )
+                        movieList.add(movie)
+                    }
                 }
-            })
-
-        return detailMovieResult
+                localDataSource.insertListCatalogue(movieList)
+            }
+        }.asLiveData()
     }
 
-    override fun getDetailTvShow(id: Int): LiveData<DetailTvShowEntity> {
-        val detailTvShowResult = MutableLiveData<DetailTvShowEntity>()
-        remoteDataSource.getDetailTv(
-            id,
-            object : RemoteDataSource.LoadDetailTvShowCallback {
-                override fun onAllDetailTvShowReceived(detailTvShowResponse: DetailTvShowResponse) {
-                    var genres = ""
-                    for (genre in detailTvShowResponse.genres) {
+    override fun getTvShows(page: Int): LiveData<Resource<PagedList<CatalogueEntity>>> {
+        val categoryCatalogue = "tv"
+        return object :
+            NetworkBoundResource<PagedList<CatalogueEntity>, TvShowResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<PagedList<CatalogueEntity>> {
+                val config = PagedList.Config.Builder()
+                    .setEnablePlaceholders(false)
+                    .setInitialLoadSizeHint(4)
+                    .setPageSize(4)
+                    .build()
+                return LivePagedListBuilder(
+                    localDataSource.getListCatalogue(categoryCatalogue),
+                    config
+                ).build()
+            }
+
+            override fun shouldFetch(data: PagedList<CatalogueEntity>?): Boolean =
+                data == null || data.isEmpty()
+
+            override fun createCall(): LiveData<ApiResponse<TvShowResponse>> =
+                remoteDataSource.getTvShows(page)
+
+            override fun saveCallResult(data: TvShowResponse?) {
+                val tvShowList = ArrayList<CatalogueEntity>()
+                if (data?.results != null) {
+                    for (response in data.results) {
+                        val score = if (response.voteCount == 0) {
+                            "NR"
+                        } else {
+                            Utils.removeDecimal(response.voteAverage.times(10)).plus(" %")
+                        }
+                        val date = if (response.firstAirDate.isNullOrEmpty()) {
+                            "TBA"
+                        } else {
+                            Utils.dateConvert(response.firstAirDate)
+                        }
+                        val tvShow = CatalogueEntity(
+                            response.id,
+                            response.name,
+                            date,
+                            response.overview,
+                            score,
+                            imagePath.plus(response.posterPath),
+                            categoryCatalogue,
+                            "",
+                            "",
+                            ""
+                        )
+                        tvShowList.add(tvShow)
+                    }
+                }
+                localDataSource.insertListCatalogue(tvShowList)
+            }
+        }.asLiveData()
+    }
+
+    override fun getCredits(id: Int, catalogue: String): LiveData<Resource<CatalogueEntity>> {
+        return object : NetworkBoundResource<CatalogueEntity, CreditResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<CatalogueEntity> =
+                localDataSource.getCatalogueById(id)
+
+            override fun shouldFetch(data: CatalogueEntity?): Boolean =
+                data?.casts?.isEmpty() ?: false
+
+            override fun createCall(): LiveData<ApiResponse<CreditResponse>> =
+                remoteDataSource.getCredit(id, catalogue)
+
+            override fun saveCallResult(data: CreditResponse?) {
+                var casts = ""
+                var directors = ""
+
+                if (data != null) {
+                    for (cast in data.cast) {
+                        casts = "$casts${cast.name}, "
+                    }
+                    casts = casts.dropLast(2)
+
+                    for (crew in data.crew) {
+                        if (crew.job == "Director") {
+                            directors = "$directors${crew.name}, "
+                        }
+                    }
+                    directors = directors.dropLast(2)
+                }
+                if (catalogue == "tv") {
+                    localDataSource.updateCatalogueByCreditTv(casts, id)
+                } else if (catalogue == "movie") {
+                    localDataSource.updateCatalogueByCreditMovie(casts, directors, id)
+                }
+            }
+        }.asLiveData()
+    }
+
+    override fun getDetailMovie(id: Int): LiveData<Resource<CatalogueEntity>> {
+        return object : NetworkBoundResource<CatalogueEntity, DetailMovieResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<CatalogueEntity> =
+                localDataSource.getCatalogueById(id)
+
+            override fun shouldFetch(data: CatalogueEntity?): Boolean =
+                data?.genres?.isEmpty() ?: false
+
+            override fun createCall(): LiveData<ApiResponse<DetailMovieResponse>> =
+                remoteDataSource.getDetailMovie(id)
+
+            override fun saveCallResult(data: DetailMovieResponse?) {
+                var genres = ""
+                if (data != null) {
+                    for (genre in data.genres) {
                         genres = "$genres${genre.name}, "
                     }
                     genres = genres.dropLast(2)
-                    var creators = ""
-                    for (creator in detailTvShowResponse.createdBy) {
+                }
+                localDataSource.updateCatalogueByDetailMovie(genres, id)
+            }
+
+        }.asLiveData()
+    }
+
+    override fun getDetailTvShow(id: Int): LiveData<Resource<CatalogueEntity>> {
+        return object : NetworkBoundResource<CatalogueEntity, DetailTvShowResponse>(appExecutors) {
+            override fun loadFromDB(): LiveData<CatalogueEntity> =
+                localDataSource.getCatalogueById(id)
+
+            override fun shouldFetch(data: CatalogueEntity?): Boolean =
+                data?.genres?.isEmpty() ?: false
+
+            override fun createCall(): LiveData<ApiResponse<DetailTvShowResponse>> =
+                remoteDataSource.getDetailTv(id)
+
+            override fun saveCallResult(data: DetailTvShowResponse?) {
+                var genres = ""
+                var creators = ""
+                if (data != null) {
+                    for (genre in data.genres) {
+                        genres = "$genres${genre.name}, "
+                    }
+                    genres = genres.dropLast(2)
+                    for (creator in data.createdBy) {
                         creators = "$creators${creator.name}, "
                     }
                     creators = creators.dropLast(2)
-                    val score =
-                        Utils.removeDecimal(detailTvShowResponse.voteAverage.times(10)).plus("%")
-                    detailTvShowResult.postValue(
-                        DetailTvShowEntity(
-                            genres,
-                            detailTvShowResponse.id,
-                            Utils.dateConvert(detailTvShowResponse.firstAirDate),
-                            detailTvShowResponse.overview,
-                            creators,
-                            detailTvShowResponse.posterPath,
-                            score,
-                            detailTvShowResponse.name
-                        )
-                    )
                 }
-            })
 
-        return detailTvShowResult
+                localDataSource.updateCatalogueByDetailTv(genres, creators, id)
+            }
+
+        }.asLiveData()
     }
+
+    override fun insertFavoriteCatalogue(favoriteEntity: FavoriteEntity) =
+        appExecutors.diskIO().execute { localDataSource.insertFavoriteCatalogue(favoriteEntity) }
+
+    override fun getListFavorite(catalogue: String): LiveData<PagedList<FavoriteEntity>> {
+        val config = PagedList.Config.Builder()
+            .setEnablePlaceholders(false)
+            .setInitialLoadSizeHint(4)
+            .setPageSize(4)
+            .build()
+        return LivePagedListBuilder(localDataSource.getListFavorite(catalogue), config).build()
+    }
+
+    override fun getFavoriteById(id: Int): LiveData<FavoriteEntity> =
+        localDataSource.getFavoriteById(id)
+
+    override fun deleteFavoriteCatalogue(id: Int) =
+        appExecutors.diskIO().execute { localDataSource.deleteFavoriteCatalogue(id) }
+
 }

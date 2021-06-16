@@ -36,9 +36,9 @@ ext {
     androidTestVersion = '1.3.0'
 
     materialVersion = '1.3.0'
-    recyclerViewVersion = '1.2.0'
+    recyclerViewVersion = '1.2.1'
     glideVersion = '4.12.0'
-    mockitoVersion = '3.11.0'
+    mockitoVersion = '3.11.1'
     mockitoKotlinVersion = '2.2.0'
     androidCoreTestVersion = '2.1.0'
     retrofit2Version = '2.9.0'
@@ -46,4 +46,8 @@ ext {
     idleResourceVersion = "3.3.0"
     navigationVersion = '2.3.5'
     legacyVersion = '1.0.0'
+
+    roomVersion = '2.3.0'
+    roomRuntimeVersion = '2.3.0'
+    pagingVersion = '2.1.1'
 }

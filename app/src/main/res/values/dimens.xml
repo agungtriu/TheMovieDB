@@ -1,5 +1,6 @@
 <resources>
     <dimen name="margin_all_zero">0dp</dimen>
+    <dimen name="margin_all_extrasmall">4dp</dimen>
     <dimen name="margin_all_small">8dp</dimen>
     <dimen name="margin_all_medium">16dp</dimen>
 
@@ -11,9 +12,11 @@
 
     <dimen name="width_all_poster_small">100dp</dimen>
     <dimen name="width_all_poster_medium">150dp</dimen>
+    <dimen name="width_all_poster_large">200dp</dimen>
 
     <dimen name="height_all_poster_small">100dp</dimen>
     <dimen name="height_all_poster_medium">150dp</dimen>
+    <dimen name="height_all_poster_large">200dp</dimen>
 
     <dimen name="padding_all_tiny">4dp</dimen>
 

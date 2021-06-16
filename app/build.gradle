@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -39,7 +40,6 @@ android {
 
 dependencies {
     //kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$coreVersion"
 
     //ui
@@ -70,4 +70,11 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:$retrofit2Version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit2Version"
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3Version"
+
+    //room
+    implementation "androidx.room:room-runtime:$roomRuntimeVersion"
+    kapt "androidx.room:room-compiler:$roomVersion"
+
+    //paging
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
 }

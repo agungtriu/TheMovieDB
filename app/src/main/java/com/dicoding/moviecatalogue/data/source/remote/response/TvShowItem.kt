@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class TvShowItem(
 
     @field:SerializedName("first_air_date")
-    val firstAirDate: String,
+    val firstAirDate: String?,
 
     @field:SerializedName("overview")
     val overview: String,
@@ -21,6 +21,9 @@ data class TvShowItem(
 
     @field:SerializedName("vote_average")
     val voteAverage: Double,
+
+    @field:SerializedName("vote_count")
+    val voteCount: Int,
 
     @field:SerializedName("name")
     val name: String,
